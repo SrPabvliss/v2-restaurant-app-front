@@ -10,6 +10,7 @@ interface StoreState {
 	loadProducts: () => void;
 }
 
+//TODO - Crear un estado de carga para mostrar un spinner mientras se cargan los productos
 export const useProductStore = create<StoreState>(
 	persist(
 		(set) => ({
@@ -25,7 +26,7 @@ export const useProductStore = create<StoreState>(
 			},
 		}),
 		{
-			name: "product-storage", // El nombre bajo el cual se guardará en el almacenamiento local
+			name: "product-storage",
 		}
-	) as StateCreator<StoreState> // Uso de as StateCreator para el tipo
+	) as StateCreator<StoreState>
 );

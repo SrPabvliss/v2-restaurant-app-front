@@ -5,15 +5,24 @@ import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useRouter } from "next/navigation";
 import { useUserStore } from "@/app/store/userStore";
-import { Button, Card, CardBody, Chip, Image, Input } from "@nextui-org/react";
+import {
+	Button,
+	Card,
+	CardBody,
+	Chip,
+	Image,
+	Input,
+	Spinner,
+} from "@nextui-org/react";
 import { EyeSlashFilledIcon } from "./EyeSlashFilledIcon";
 import { EyeFilledIcon } from "./EyeFilledIcon";
-import Logo from '@/public/images/jefa2.png';
+import Logo from "@/public/images/jefa2.png";
 
 const Login: React.FC = () => {
 	const [username, setUsername] = useState<string>("");
 	const [password, setPassword] = useState<string>("");
 	const [isVisible, setIsVisible] = React.useState(false);
+	const [isLoading, setIsLoading] = useState(false);
 	const { setUser, user } = useUserStore();
 	const router = useRouter();
 
@@ -22,7 +31,9 @@ const Login: React.FC = () => {
 	const handleSubmit = async (e: FormEvent) => {
 		e.preventDefault();
 		try {
+			setIsLoading(true);
 			const user = await fetchLogin(username, password);
+			setIsLoading(false);
 			const role = user?.role.toLowerCase();
 
 			if (user) {
@@ -54,16 +65,23 @@ const Login: React.FC = () => {
 
 	return (
 		<>
+			{isLoading && (
+				<div className="fixed inset-0 bg-black bg-opacity-80 flex justify-center items-center z-50">
+					<Spinner color="warning" />
+				</div>
+			)}
 			<ToastContainer position="top-center" />
-			<div className="flex flex-col items-center justify-center h-screen gap-4" style={{ backgroundImage: `url('/images/fondoLoginAct.jpg')` }}>
-
+			<div
+				className="flex flex-col items-center justify-center h-screen gap-4"
+				style={{ backgroundImage: `url('/images/fondoLoginAct.jpg')` }}
+			>
 				<Card className="border-none bg-background/80 dark:bg-default-100/50 max-w-64">
-							<Image
-								removeWrapper
-								alt="Card background"
-								className="z-0  object-cover w-full h-full "
-								src={Logo.src}
-							/>
+					<Image
+						removeWrapper
+						alt="Card background"
+						className="z-0  object-cover w-full h-full "
+						src={Logo.src}
+					/>
 				</Card>
 
 				<Card
@@ -71,48 +89,45 @@ const Login: React.FC = () => {
 					shadow="sm"
 				>
 					<CardBody>
-								<form
-									className="flex flex-col space-y-4"
-									onSubmit={handleSubmit}
-								>
-									<div>
-										<Input
-											isClearable
-											className="text-black"
-											onClear={() => setUsername("")}
-											type="text"
-											variant="faded"
-											label="Username"
-											value={username}
-											onChange={(e) => setUsername(e.target.value)}
-										/>
-									</div>
-									<div>
-										<Input
-											variant="faded"
-											endContent={
-												<button
-													className="focus:outline-none"
-													type="button"
-													onClick={toggleVisibility}
-												>
-													{isVisible ? (
-														<EyeSlashFilledIcon className="text-2xl text-default-400 pointer-events-none" />
-													) : (
-														<EyeFilledIcon className="text-2xl text-default-400 pointer-events-none" />
-													)}
-												</button>
-											}
-											type={isVisible ? "text" : "password"}
-											label="Password"
-											value={password}
-											onChange={(e) => setPassword(e.target.value)}
-										/>
-									</div>
-									<Button type="submit" color="warning" variant="shadow" >
-										Iniciar sesión
-									</Button>
-								</form>
+						<form className="flex flex-col space-y-4" onSubmit={handleSubmit}>
+							<div>
+								<Input
+									isClearable
+									className="text-black"
+									onClear={() => setUsername("")}
+									type="text"
+									variant="faded"
+									label="Username"
+									value={username}
+									onChange={(e) => setUsername(e.target.value)}
+								/>
+							</div>
+							<div>
+								<Input
+									variant="faded"
+									endContent={
+										<button
+											className="focus:outline-none"
+											type="button"
+											onClick={toggleVisibility}
+										>
+											{isVisible ? (
+												<EyeSlashFilledIcon className="text-2xl text-default-400 pointer-events-none" />
+											) : (
+												<EyeFilledIcon className="text-2xl text-default-400 pointer-events-none" />
+											)}
+										</button>
+									}
+									type={isVisible ? "text" : "password"}
+									label="Password"
+									value={password}
+									onChange={(e) => setPassword(e.target.value)}
+								/>
+							</div>
+							<Button type="submit" color="warning" variant="shadow">
+								Iniciar sesión
+							</Button>
+						</form>
 					</CardBody>
 				</Card>
 			</div>

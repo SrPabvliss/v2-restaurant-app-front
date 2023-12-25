@@ -15,6 +15,7 @@ interface StoreState {
 	handleEmptyTable: (tableId: number) => void;
 }
 
+//TODO - Crear un estado de carga para mostrar un spinner mientras se cargan las mesas
 export const useTableStore = create<StoreState>(
     (set, get) => ({
 	tables: undefined,
