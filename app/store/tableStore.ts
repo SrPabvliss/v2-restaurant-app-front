@@ -1,5 +1,5 @@
 import { StateCreator, create } from "zustand";
-import { emptyTable, fetchTables, takeTable } from "../(login)/api/useTables";
+import { emptyTable, fetchTables, takeTable } from "../api/useTables";
 import { toast } from "react-toastify";
 import { persist } from "zustand/middleware";
 
@@ -13,11 +13,13 @@ interface StoreState {
 	filterTables: () => void;
 	handleTakeTable: (tableId: number) => void;
 	handleEmptyTable: (tableId: number) => void;
+	areTablesLoading: boolean;
 }
 
 //TODO - Crear un estado de carga para mostrar un spinner mientras se cargan las mesas
 export const useTableStore = create<StoreState>(
     (set, get) => ({
+	areTablesLoading: false,
 	tables: undefined,
 	availableTables: undefined,
 	occupiedTables: undefined,
@@ -26,7 +28,9 @@ export const useTableStore = create<StoreState>(
 	loadTables: async () => {
         //TODO: pensar una manera de no hacer fetch cada vez que se actualizan las mesas
 		// if (!useTableStore.getState().tablesLoaded) {
+			set({ areTablesLoading: true });
 			const tables = await fetchTables();
+			set({ areTablesLoading: false });
 			set({
 				tables: tables,
 				tablesLoaded: true,

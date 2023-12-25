@@ -1,6 +1,6 @@
 import { create, StateCreator } from "zustand";
 import { persist } from "zustand/middleware";
-import { IUser } from "../(login)/types/user";
+import { IUser } from "../types/user";
 
 interface StoreState {
 	user: IUser | undefined;

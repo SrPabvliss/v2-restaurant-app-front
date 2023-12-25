@@ -1,5 +1,8 @@
 "use client";
+import Product from "@/app/mesero/components/Product";
 import { useProductStore } from "@/app/store/productStore";
+import { ChevronLeftIcon } from "@heroicons/react/16/solid";
+import { Button, Divider, Spinner } from "@nextui-org/react";
 import { useParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
 
@@ -9,28 +12,37 @@ interface OrderState {
 
 const ProductByCategory = () => {
 	const { categoryId } = useParams();
-	const {productCategories, productsLoaded, loadProducts} = useProductStore();
+	const {
+		productCategories,
+		productsLoaded,
+		loadProducts,
+		areProductsLoading,
+	} = useProductStore();
 	const [isClient, setIsClient] = useState(false);
 
-	const categoryProducts = productCategories?.find(
+	const categoryDetails = productCategories?.find(
 		(category) => category.id.toString() === categoryId
-	)?.Products;
+	);
 
-	
+	const categoryName = categoryDetails?.name; // Obtendrás el nombre de la categoría aquí
+	const categoryProducts = categoryDetails?.Products;
+
 	const [order, setOrder] = useState<OrderState>({});
-	
+
 	const addToOrder = (productId: number) => {
 		setOrder((prevOrder: OrderState) => ({
 			...prevOrder,
 			[productId]: (prevOrder[productId] || 0) + 1,
 		}));
+		console.log(order);
 	};
-	
+
 	const removeFromOrder = (productId: number) => {
 		setOrder((prevOrder: OrderState) => ({
 			...prevOrder,
 			[productId]: Math.max((prevOrder[productId] || 0) - 1, 0),
 		}));
+		console.log(order);
 	};
 
 	useEffect(() => {
@@ -42,24 +54,45 @@ const ProductByCategory = () => {
 
 	return (
 		<>
-		{isClient && (
-		<div className="flex justify-center">
-			<h1>Productos de la Categoría {categoryId}</h1>
-			<div>
-				{categoryProducts?.map((product) => (
-					<div key={product.id+10} className="product-item">
-						<div className="product-name">{product.name} {product.id}</div>
-						<div className="product-price">{product.price}</div>
-						<div className="product-quantity-control">
-							<button onClick={() => removeFromOrder(product.id)}>-</button>
-							<span>{order[product.id] || 0}</span>
-							<button onClick={() => addToOrder(product.id)}>+</button>
+			{areProductsLoading && (
+				<div className="fixed inset-0 bg-black bg-opacity-80 flex justify-center items-center z-50">
+					<Spinner color="warning" />
+				</div>
+			)}
+			{isClient && (
+				<>
+					<div className="flex gap-4 items-center ">
+						<Button
+							isIconOnly
+							size="sm"
+							className="my-4 ml-4 w-2 px-0"
+							onClick={() => {
+								window.history.back();
+							}}
+						>
+							<ChevronLeftIcon />
+						</Button>
+						<div className="text-2xl text-slate-100 py-3">{categoryName}</div>
+					</div>
+					<Divider className="bg-slate-100 mb-4" />
+
+					<div className="flex justify-center">
+						<div className="flex flex-col gap-4 mb-4">
+							{categoryProducts?.map((product) => (
+								<Product
+									key={product.id}
+									productId={product.id}
+									productName={product.name}
+									productPrice={product.price}
+									addToOrder={addToOrder}
+									removeFromOrder={removeFromOrder}
+									order={order}
+								/>
+							))}
 						</div>
 					</div>
-				))}
-			</div>
-		</div>
-		)}
+				</>
+			)}
 		</>
 	);
 };

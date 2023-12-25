@@ -6,20 +6,26 @@ import { useRouter } from "next/navigation";
 import { useProductStore } from "../store/productStore";
 import { useUserStore } from "../store/userStore";
 import { useTableStore } from "../store/tableStore";
-import { Divider } from "@nextui-org/react";
+import { Divider, Spinner } from "@nextui-org/react";
 import AvailableTable from "./components/AvailableTable";
 import OcuppiedTable from "./components/OcuppiedTable";
 
 const WaiterDashboard: React.FC = () => {
-	const { productsLoaded, loadProducts } = useProductStore();
+	const { productsLoaded, 
+		loadProducts, 
+		areProductsLoading 
+	} = useProductStore();
+	
 	const router = useRouter();
 	const [isClient, setIsClient] = useState(false);
 	const { user } = useUserStore();
+	
 	const {
 		tables,
 		loadTables,
 		availableTables,
 		occupiedTables,
+		areTablesLoading,
 	} = useTableStore();
 
 	useEffect(() => {
@@ -45,11 +51,13 @@ const WaiterDashboard: React.FC = () => {
 
 	return (
 		<>
+			{areTablesLoading || areProductsLoading && (
+				<div className="fixed inset-0 bg-black bg-opacity-80 flex justify-center items-center z-50">
+					<Spinner color="warning" />
+				</div>
+			)}
 			{isClient && (
-				<div
-					className="bg-repeat bg-center "
-					style={{ backgroundImage: `url('/images/fondoLoginAct.jpg')` }}
-				>
+				<div>
 					<ToastContainer position="top-center" />
 					<div className="grid place-items-center min-h-screen">
 						<h1 className="font-bold text-2xl text-slate-100 py-3">
@@ -73,7 +81,7 @@ const WaiterDashboard: React.FC = () => {
 						</h1>
 						<Divider className="bg-slate-100 mb-4" />
 
-						<div className="flex flex-col gap-4">
+						<div className="flex flex-col gap-4 mb-4">
 							{occupiedTables?.map((table) => (
 								<OcuppiedTable
 									key={table.id}

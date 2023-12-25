@@ -1,6 +1,6 @@
 import { StateCreator, create } from "zustand";
-import { IProductCategory } from "../(login)/types/product";
-import { fetchProducts } from "../(login)/api/useProducts";
+import { IProductCategory } from "../types/product";
+import { fetchProducts } from "../api/useProducts";
 import { persist } from "zustand/middleware";
 
 interface StoreState {
@@ -8,18 +8,21 @@ interface StoreState {
 	productsLoaded: boolean;
 	setProductsLoaded: (loaded: boolean) => void;
 	loadProducts: () => void;
+	areProductsLoading: boolean;
 }
 
-//TODO - Crear un estado de carga para mostrar un spinner mientras se cargan los productos
 export const useProductStore = create<StoreState>(
 	persist(
 		(set) => ({
+			areProductsLoading: false,
 			productCategories: undefined,
 			productsLoaded: false,
 			setProductsLoaded: (loaded: boolean) => set({ productsLoaded: loaded }),
 			loadProducts: async () => {
 				if (!useProductStore.getState().productsLoaded) {
+					set({ areProductsLoading: true });
 					const productCategories = await fetchProducts();
+					set({ areProductsLoading: false });
 					console.log('fetchProducts');
 					set({ productCategories, productsLoaded: true });
 				}

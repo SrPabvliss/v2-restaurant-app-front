@@ -1,6 +1,6 @@
 "use client";
 import React, { useState, FormEvent, useEffect } from "react";
-import { fetchLogin } from "../(login)/api/useLogin";
+import { fetchLogin } from "../api/useLogin";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useRouter } from "next/navigation";
