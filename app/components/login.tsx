@@ -1,15 +1,23 @@
+"use client";
 import React, { useState, FormEvent, useEffect } from "react";
 import { fetchLogin } from "../(login)/api/useLogin";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useRouter } from "next/navigation";
 import { useUserStore } from "@/app/store/userStore";
+import { Button, Card, CardBody, Chip, Image, Input } from "@nextui-org/react";
+import { EyeSlashFilledIcon } from "./EyeSlashFilledIcon";
+import { EyeFilledIcon } from "./EyeFilledIcon";
+import Logo from '@/public/images/jefa2.png';
 
 const Login: React.FC = () => {
 	const [username, setUsername] = useState<string>("");
 	const [password, setPassword] = useState<string>("");
+	const [isVisible, setIsVisible] = React.useState(false);
 	const { setUser, user } = useUserStore();
 	const router = useRouter();
+
+	const toggleVisibility = () => setIsVisible(!isVisible);
 
 	const handleSubmit = async (e: FormEvent) => {
 		e.preventDefault();
@@ -41,51 +49,72 @@ const Login: React.FC = () => {
 			const role = user.role.toLowerCase();
 			router.push(`/${role}`);
 		}
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 
 	return (
 		<>
 			<ToastContainer position="top-center" />
+			<div className="flex flex-col items-center justify-center h-screen gap-4" style={{ backgroundImage: `url('/images/fondoLoginAct.jpg')` }}>
 
-			<div className="flex flex-col items-center justify-center h-screen bg-gray-100">
-				<div className="p-6 max-w-sm w-full bg-white shadow-md rounded-md">
-					<form className="flex flex-col space-y-4" onSubmit={handleSubmit}>
-						<div>
-							<label htmlFor="username" className="sr-only">
-								Username
-							</label>
-							<input
-								type="text"
-								name="username"
-								id="username"
-								className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:border-blue-300"
-								placeholder="Enter your user"
-								value={username}
-								onChange={(e) => setUsername(e.target.value)}
+				<Card className="border-none bg-background/80 dark:bg-default-100/50 max-w-64">
+							<Image
+								removeWrapper
+								alt="Card background"
+								className="z-0  object-cover w-full h-full "
+								src={Logo.src}
 							/>
-						</div>
-						<div>
-							<label htmlFor="password" className="sr-only">
-								Password
-							</label>
-							<input
-								type="password"
-								name="password"
-								id="password"
-								className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:border-blue-300"
-								placeholder="Enter your password"
-								value={password}
-								onChange={(e) => setPassword(e.target.value)}
-							/>
-						</div>
-						<button
-							type="submit"
-							className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-700 focus:outline-none focus:bg-blue-700"
-						>
-							Login
-						</button>
-					</form>
-				</div>
+				</Card>
+
+				<Card
+					className="border-none bg-background/80 dark:bg-default-100/50 max-w-64 py-5"
+					shadow="sm"
+				>
+					<CardBody>
+								<form
+									className="flex flex-col space-y-4"
+									onSubmit={handleSubmit}
+								>
+									<div>
+										<Input
+											isClearable
+											className="text-black"
+											onClear={() => setUsername("")}
+											type="text"
+											variant="faded"
+											label="Username"
+											value={username}
+											onChange={(e) => setUsername(e.target.value)}
+										/>
+									</div>
+									<div>
+										<Input
+											variant="faded"
+											endContent={
+												<button
+													className="focus:outline-none"
+													type="button"
+													onClick={toggleVisibility}
+												>
+													{isVisible ? (
+														<EyeSlashFilledIcon className="text-2xl text-default-400 pointer-events-none" />
+													) : (
+														<EyeFilledIcon className="text-2xl text-default-400 pointer-events-none" />
+													)}
+												</button>
+											}
+											type={isVisible ? "text" : "password"}
+											label="Password"
+											value={password}
+											onChange={(e) => setPassword(e.target.value)}
+										/>
+									</div>
+									<Button type="submit" color="warning" variant="shadow" >
+										Iniciar sesión
+									</Button>
+								</form>
+					</CardBody>
+				</Card>
 			</div>
 		</>
 	);
