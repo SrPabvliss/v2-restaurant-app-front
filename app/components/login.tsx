@@ -9,7 +9,6 @@ import {
 	Button,
 	Card,
 	CardBody,
-	Chip,
 	Image,
 	Input,
 	Spinner,
@@ -22,7 +21,7 @@ const Login: React.FC = () => {
 	const [username, setUsername] = useState<string>("");
 	const [password, setPassword] = useState<string>("");
 	const [isVisible, setIsVisible] = React.useState(false);
-	const [isLoading, setIsLoading] = useState(false);
+	const [ isLoading, setIsLoading ] = useState(false);
 	const { setUser, user } = useUserStore();
 	const router = useRouter();
 
