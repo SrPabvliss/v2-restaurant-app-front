@@ -3,12 +3,10 @@ import { persist } from "zustand/middleware";
 import { IUser } from "../types/user";
 
 interface OrderState {
-	user: IUser | undefined;
-	setUser: (user: IUser) => void;
-	logout: () => void;
+	visitOrders: IVisitOrder[] | undefined;
 }
 
-export const useUserStore = create<OrderState>(
+export const useOrdersStore = create<OrderState>(
 	persist(
 		(set) => ({
 			user: undefined,

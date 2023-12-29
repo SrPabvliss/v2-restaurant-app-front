@@ -4,3 +4,8 @@ interface ITable {
     size: string;
     availability: boolean;
 }
+
+interface IVisitTable {
+    visitId: number;
+    tableId: number;
+}

@@ -20,3 +20,5 @@ export interface QuantityOrder extends Order {
 export interface IGroupedOrders {
 	[key: number]: QuantityOrder[]; // This is an index signature
 }
+
+export interface 

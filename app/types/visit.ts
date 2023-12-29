@@ -1,4 +1,6 @@
-interface Visit {
-    customerId: string | null;
-    tableId: number ;
+interface IVisit {
+    id: number;
+    entry: Date;
+    exit: Date;
+    table: ITable;
 }
