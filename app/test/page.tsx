@@ -8,14 +8,17 @@ const Test = () => {
     socket.on("load-tables", (data) => {
       console.log(data);
     });
+    socket.on("test-fifo-orders", (data: any) => {
+      console.log(data);
+    });
   }, []);
   return (
     <div>
       Test
       <button
         onClick={() => {
-          socket.emit("get-tables");
-          socket.on("load-tables", (data: any) => {
+          socket.emit("get-visits");
+          socket.on("load-visits", (data: any) => {
             console.log(data);
           });
         }}
