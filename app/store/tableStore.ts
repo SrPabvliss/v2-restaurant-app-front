@@ -1,7 +1,8 @@
-import { StateCreator, create } from "zustand";
-import { emptyTable, fetchTables, takeTable } from "../api/useTables";
 import { toast } from "react-toastify";
 import { persist } from "zustand/middleware";
+import { StateCreator, create } from "zustand";
+import { emptyTable, fetchTables, takeTable } from "../api/useTables";
+
 
 interface StoreState {
 	tables: ITable[] | undefined;

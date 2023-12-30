@@ -1,22 +1,34 @@
+import { Product } from "./product";
+
 export interface Order {
 	id: number;
-	product: {
-		id: number;
-		name: string;
-		price: number;
-	};
-	status: string;
-	visit: {
-		id: number;
-		tableId: number;
-	};
-    img?: string;
+	product: Product;
+	quantity: number;	
+}
+export interface IUnitOrder {
+	id: number;
+	productState: "PREPARANDO" | "LISTO";
+	queuedAt: Date;
+	product: Product;
+}
+export interface IVisitUnitOrder {
+	entry: Date;
+	exit: Date | null;
+	id: number;
+	unitOrders: IUnitOrder[];
 }
 
-export interface QuantityOrder extends Order {
-	quantity: number;
+export interface IVisitOrder {
+	entry: Date;
+	exit: Date | null;
+	id: number;
+	orders: Order[];
+}
+export interface createOrderDto {
+	visitId: number;
+	products: {productId: number; quantity: number}[];
 }
 
-export interface IGroupedOrders {
-	[key: number]: QuantityOrder[]; // This is an index signature
+export interface OrderState {
+	[productId: number]: number;
 }
