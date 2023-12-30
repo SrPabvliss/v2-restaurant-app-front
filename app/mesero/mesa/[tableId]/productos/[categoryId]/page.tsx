@@ -10,6 +10,11 @@ interface OrderState {
 	[productId: number]: number;
 }
 
+interface OrderItem {
+    productId: number;
+    quantity: number;
+}
+
 const ProductByCategory = () => {
 	const { categoryId } = useParams();
 	const {
@@ -27,23 +32,42 @@ const ProductByCategory = () => {
 	const categoryName = categoryDetails?.name; // Obtendrás el nombre de la categoría aquí
 	const categoryProducts = categoryDetails?.Products;
 
-	const [order, setOrder] = useState<OrderState>({});
+	const [order, setOrder] = useState<OrderItem[]>([]);
 
-	const addToOrder = (productId: number) => {
-		setOrder((prevOrder: OrderState) => ({
-			...prevOrder,
-			[productId]: (prevOrder[productId] || 0) + 1,
-		}));
-		console.log(order);
-	};
+const addToOrder = (productId: number) => {
+    setOrder((prevOrder: OrderItem[]) => {
+        const existingItem = prevOrder.find(item => item.productId === productId);
 
-	const removeFromOrder = (productId: number) => {
-		setOrder((prevOrder: OrderState) => ({
-			...prevOrder,
-			[productId]: Math.max((prevOrder[productId] || 0) - 1, 0),
-		}));
-		console.log(order);
-	};
+        if (existingItem) {
+            // Si el producto ya existe en el pedido, incrementa su cantidad
+            return prevOrder.map(item =>
+                item.productId === productId ? { ...item, quantity: item.quantity + 1 } : item
+            );
+        } else {
+            // Si el producto no existe en el pedido, añádelo con una cantidad de 1
+            return [...prevOrder, { productId, quantity: 1 }];
+        }
+    });
+	console.log(order);
+};
+
+const removeFromOrder = (productId: number) => {
+	setOrder((prevOrder: OrderItem[]) => {
+		const existingItem = prevOrder.find(item => item.productId === productId);
+
+		if (existingItem) {
+			// Si el producto ya existe en el pedido, decrementa su cantidad
+			return prevOrder.map(item =>
+				item.productId === productId ? { ...item, quantity: item.quantity - 1 } : item
+			);
+		} else {
+			// Si el producto no existe en el pedido, no hagas nada
+			return prevOrder;
+		}
+	});
+	console.log(order);
+}
+
 
 	useEffect(() => {
 		setIsClient(true);
@@ -62,16 +86,7 @@ const ProductByCategory = () => {
 			{isClient && (
 				<>
 					<div className="flex gap-4 items-center ">
-						<Button
-							isIconOnly
-							size="sm"
-							className="my-4 ml-4 w-2 px-0"
-							onClick={() => {
-								window.history.back();
-							}}
-						>
-							<ChevronLeftIcon />
-						</Button>
+					
 						<div className="text-2xl text-slate-100 py-3">{categoryName}</div>
 					</div>
 					<Divider className="bg-slate-100 mb-4" />
