@@ -27,36 +27,19 @@ const ProductByCategory = () => {
   const categoryProducts = categoryDetails?.Products;
 
   const { enqueueOrder, toQueueOrders } = useOrdersStore();
-  const { visitTables } = useTableStore();
+  const { getVisitIdByTableId } = useTableStore();
 
-  const visitId = visitTables?.find(
-    (visitTable) => visitTable.tableId === +tableId
-  )?.visitId;
+  const visitId = getVisitIdByTableId(+tableId);
 
   const prevOrder = toQueueOrders
     ?.find((order) => order.visitId === visitId)
     ?.products?.map((product) => {
-      console.log("product", product);
       return {
         [product.productId]: product.quantity,
       };
     })
     .reduce((prev, curr) => ({ ...prev, ...curr }), {});
 
-  console.log(
-    "prevOrder",
-    toQueueOrders
-      ?.find((order) => order.visitId == visitId)
-      ?.products?.map((product) => {
-        console.log("product", product);
-        return {
-          [product.productId]: product.quantity,
-        };
-      })
-      .reduce((prev, curr) => ({ ...prev, ...curr }), {}),
-    { visitTables },
-    { prevOrder }
-  );
   const [order, setOrder] = useState<OrderState>(prevOrder ? prevOrder : {});
 
   const addToOrder = (productId: number) => {

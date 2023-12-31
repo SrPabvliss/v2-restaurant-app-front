@@ -1,7 +1,5 @@
 "use client";
 import React, { useEffect, useState, Suspense } from "react";
-import { ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 import { useRouter } from "next/navigation";
 import { useProductStore } from "../store/productStore";
 import { useUserStore } from "../store/userStore";
@@ -65,7 +63,6 @@ const WaiterDashboard: React.FC = () => {
           }
         >
           <div>
-            <ToastContainer position="top-center" />
             <div className="grid place-items-center min-h-screen">
               <h1 className="font-bold text-2xl text-slate-100 py-3">
                 Mesas Disponibles

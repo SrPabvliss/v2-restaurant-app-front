@@ -14,6 +14,8 @@ interface StoreState {
 	filterTables: () => void;
 	handleTakeTable: (tableId: number) => void;
 	handleEmptyTable: (tableId: number) => void;
+	getVisitIdByTableId: (tableId: number) => number | undefined;
+	getTableIdByVisitId: (visitId: number) => number | undefined;
 	areTablesLoading: boolean;
 }    
 
@@ -52,7 +54,7 @@ export const useTableStore = create<StoreState>(
 						}
 					),
 					});
-					console.log({visitTables: get().visitTables});
+					console.log('fetchVisits' , get().visitTables);
 				});
 	
 	
@@ -110,6 +112,16 @@ export const useTableStore = create<StoreState>(
 					position: "bottom-center",
 					autoClose: 1800,
 				});
+			}
+		},
+		getVisitIdByTableId: (tableId: number) => {
+			if (get().visitTables) {
+				return get().visitTables?.find((visit) => visit.tableId === tableId)?.visitId;
+			}
+		},
+		getTableIdByVisitId: (visitId: number) => {
+			if (get().visitTables) {
+				return get().visitTables?.find((visit) => visit.visitId === visitId)?.tableId;
 			}
 		},
 	}),

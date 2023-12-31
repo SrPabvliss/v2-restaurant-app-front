@@ -3,7 +3,7 @@ import { IUser } from "../types/user";
 export const fetchLogin = async (username: string, password: string) => {
 	try {
 		const response = await fetch(
-			`https://restaurant-orders-manager-back-api.onrender.com/auth/login`,
+			`${process.env.NEXT_PUBLIC_BACKEN_URL}/auth/login`,
 			{
 				method: "POST",
 				headers: {
