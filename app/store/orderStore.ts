@@ -29,7 +29,6 @@ export const useOrdersStore = create<OrdersState>(
 			areReadyOrdersLoading: false,
 			toQueueOrders: undefined,
 			handleCreateMasterOrder: (createOrderDto: createOrderDto) => {
-				socket.emit("create-master-order", createOrderDto);
 				socket.on("create-master-order-response", (result) => {
 					if (result) {
 						get().loadOrders(); // Actualizar pedidos después de crear un pedido
@@ -42,10 +41,13 @@ export const useOrdersStore = create<OrdersState>(
 					}
 				}
 				);
+				socket.emit("create-master-order", createOrderDto);
+
+				//socket.off("create-master-order-response");
+				//socket.off("create-master-order-error");
 			},
 			loadOrders: () => {
 				set({ areReadyOrdersLoading: true });
-				socket.emit("find-active-master-orders");
 				socket.on("load-active-master-orders", (data: IMasterOrder[]) => {
 					set({ masterOrders: data });
 				}
@@ -56,9 +58,9 @@ export const useOrdersStore = create<OrdersState>(
 					}
 				}
 				);
+				socket.emit("find-active-master-orders");
 				console.log('fetchMasterOrders', get().masterOrders)
 
-				socket.emit("find-preparing-master-orders");
 				socket.on("load-preparing-master-orders", (data: IMasterOrder[]) => {
 					set({ progressingMasterOrders: data });
 				}
@@ -69,9 +71,9 @@ export const useOrdersStore = create<OrdersState>(
 					}
 				}
 				);
+				socket.emit("find-preparing-master-orders");
 				console.log('progressingMasterOrders', get().progressingMasterOrders)
 
-				socket.emit("find-ready-master-orders");
 				socket.on("load-ready-master-orders", (data: IMasterOrder[]) => {
 					set({ readyMasterOrders: data });
 				}
@@ -82,9 +84,9 @@ export const useOrdersStore = create<OrdersState>(
 					}
 				}
 				);
+				socket.emit("find-ready-master-orders");
 				console.log('readyMasterOrders', get().readyMasterOrders)
 
-				socket.emit("find-served-master-orders");
 				socket.on("load-served-master-orders", (data: IMasterOrder[]) => {
 					set({ masterServedOrders: data });
 				}
@@ -95,7 +97,17 @@ export const useOrdersStore = create<OrdersState>(
 					}
 				}
 				);
+				socket.emit("find-served-master-orders");
 				console.log('masterServedOrders', get().masterServedOrders)
+
+				//socket.off("load-active-master-orders");
+				//socket.off("load-active-master-orders-error");
+				//socket.off("load-preparing-master-orders");
+				//socket.off("load-preparing-master-orders-error");
+				//socket.off("load-ready-master-orders");
+				//socket.off("load-ready-master-orders-error");
+				//socket.off("load-served-master-orders");
+				//socket.off("load-served-master-orders-error");
 
 				set({ areReadyOrdersLoading: false });
 			},
@@ -152,10 +164,9 @@ export const useOrdersStore = create<OrdersState>(
 				}
 			  },
 			handleChangeStatusOrder: (unitOrderId: number, state: UnitOrderState) => {
-				socket.emit("change-status-unit-order", { unitOrderId: unitOrderId, state: state });
 				socket.on("change-status-unit-order-response", (result) => {
 					if (result) {
-						get().loadOrders(); // Actualizar pedidos después de cambiar el estado de un pedido
+						get().loadOrders();
 					}
 				}
 				);
@@ -165,6 +176,9 @@ export const useOrdersStore = create<OrdersState>(
 					}
 				}
 				);
+				socket.emit("change-status-unit-order", { unitOrderId: unitOrderId, state: state });
+				//socket.off("change-status-unit-order-response");
+				//socket.off("change-status-unit-order-error");
 			},			  
 		}),
 		{

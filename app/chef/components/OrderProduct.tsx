@@ -14,6 +14,7 @@ import { Product } from "@/app/types/product";
 import { useOrdersStore } from "@/app/store/orderStore";
 import { toast } from "react-toastify";
 import { Order, UnitOrderState } from "@/app/types/order";
+import { useUserStore } from "@/app/store/userStore";
 
 export const OrderProduct = ({
   order,
@@ -27,6 +28,11 @@ export const OrderProduct = ({
   status: string;
 }) => {
   const { handleChangeStatusOrder } = useOrdersStore();
+  const { user } = useUserStore();
+
+  if (!user) {
+    return <div></div>;
+  }
 
   const changeStatusOrder = () => {
     const unitOrderId = order.unitOrders?.at(0)?.id;

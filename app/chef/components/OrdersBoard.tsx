@@ -21,6 +21,10 @@ const OrdersBoard = () => {
     areReadyOrdersLoading,
   } = useOrdersStore();
 
+  useEffect(() => {
+    loadOrders();
+  }, [areReadyOrdersLoading, loadOrders]);
+
   return (
     <div className="flex w-11/12 gap-4 justify-between">
       <div className="flex flex-col w-9/12 gap-4  ">

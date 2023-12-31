@@ -7,7 +7,6 @@ import { useTableStore } from "../store/tableWsStore";
 import { Divider, Spinner } from "@nextui-org/react";
 import AvailableTable from "./components/AvailableTable";
 import OcuppiedTable from "./components/OcuppiedTable";
-import { socket } from "../api/socket";
 
 const WaiterDashboard: React.FC = () => {
   const { productsLoaded, loadProducts, areProductsLoading } =
