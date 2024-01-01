@@ -25,9 +25,11 @@ const WaiterDashboard: React.FC = () => {
   } = useTableStore();
 
   useEffect(() => {
-    if (!tables) {
-      loadTables();
-    }
+    loadTables();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  useEffect(() => {
     if (!user) {
       router.push("/");
     }

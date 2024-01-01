@@ -1,12 +1,13 @@
 "use client";
 
 import { ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
-import WaiterNavBar from "../components/NavBar";
+import NavBar from "../components/NavBar";
 import { useSocketListeners } from "../api/useOrderReady";
+import { useTableSocketListeners } from "../api/useTables";
 
 const Layout = ({ children }: { children: React.ReactNode }) => {
   useSocketListeners();
+  useTableSocketListeners();
 
   return (
     <div
@@ -14,7 +15,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
       style={{ backgroundImage: `url('/images/fondoLoginAct.jpg')` }}
     >
       <ToastContainer position="top-center" />
-      <WaiterNavBar />
+      <NavBar type="mesero" />
 
       {children}
     </div>

@@ -1,4 +1,5 @@
 import { Product } from "./product";
+import { IVisit } from "./visit";
 
 export interface Order {
 	id: number;

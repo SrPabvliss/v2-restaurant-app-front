@@ -54,7 +54,13 @@ export const OrderProduct = ({
         <div className="flex justify-between flex-col">
           <div className="text-xl font-semibold text-center pb-5">
             {product.name}
-            <p>{status}</p>
+            <Chip
+              color={status === "Preparando" ? "warning" : "default"}
+              className="ml-2"
+              style={{ width: "fit-content" }}
+            >
+              {status}
+            </Chip>
           </div>
 
           <div className="flex justify-center">
@@ -66,8 +72,10 @@ export const OrderProduct = ({
           </div>
 
           <div className="text-center py-4 ">
-            <span className="font-semibold">Cantidad:</span>
-            {quantity}
+            <span className="font-semibold">Cantidad: </span>
+            <span className="text-2xl font-semibold bg-purple-200 rounded-sm px-2">
+              {quantity}
+            </span>
           </div>
 
           <Button color="warning" variant="shadow" onClick={changeStatusOrder}>

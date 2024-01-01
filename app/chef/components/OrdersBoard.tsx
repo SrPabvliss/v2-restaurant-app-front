@@ -23,7 +23,8 @@ const OrdersBoard = () => {
 
   useEffect(() => {
     loadOrders();
-  }, [areReadyOrdersLoading, loadOrders]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [areReadyOrdersLoading]);
 
   return (
     <div className="flex w-11/12 gap-4 justify-between">
@@ -37,10 +38,27 @@ const OrdersBoard = () => {
         >
           {progressingMasterOrders?.map((masterOrder, index) => (
             <div className="flex gap-4 w-full" key={index}>
-              <Card className="border-none bg-background/90 dark:bg-default-100/50 w-full">
-                <CardHeader className="bg-amber-500">
+              <Card
+                className={`border-none ${
+                  index === 0
+                    ? "bg-amber-500 bg-opacity-60"
+                    : "bg-background/90"
+                } dark:bg-default-100/50 w-full`}
+              >
+                <CardHeader
+                  className={index === 0 ? "bg-background/90" : "bg-amber-500"}
+                >
                   <p className="text-xl font-semibold px-6">
                     Orden #{`${masterOrder.id}`}
+                    {index === 0 && (
+                      <Chip
+                        color="warning"
+                        className="ml-2"
+                        style={{ width: "fit-content" }}
+                      >
+                        En curso
+                      </Chip>
+                    )}
                   </p>
                 </CardHeader>
                 <CardBody className="flex ">
@@ -90,7 +108,7 @@ const OrdersBoard = () => {
                             key={order.id}
                           >
                             <p>
-                              {order.product.name} x{order.unitOrders?.length}
+                              x{order.unitOrders?.length} {order.product.name}
                             </p>
                           </div>
                         );
