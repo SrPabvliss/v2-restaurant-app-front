@@ -1,7 +1,5 @@
 "use client";
 import React, { useEffect, useState, Suspense } from "react";
-import { ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 import { useRouter } from "next/navigation";
 import { useProductStore } from "../store/productStore";
 import { useUserStore } from "../store/userStore";
@@ -9,7 +7,6 @@ import { useTableStore } from "../store/tableWsStore";
 import { Divider, Spinner } from "@nextui-org/react";
 import AvailableTable from "./components/AvailableTable";
 import OcuppiedTable from "./components/OcuppiedTable";
-import { socket } from "../api/socket";
 
 const WaiterDashboard: React.FC = () => {
   const { productsLoaded, loadProducts, areProductsLoading } =
@@ -28,9 +25,11 @@ const WaiterDashboard: React.FC = () => {
   } = useTableStore();
 
   useEffect(() => {
-    if (!tables) {
-      loadTables();
-    }
+    loadTables();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  useEffect(() => {
     if (!user) {
       router.push("/");
     }
@@ -65,7 +64,6 @@ const WaiterDashboard: React.FC = () => {
           }
         >
           <div>
-            <ToastContainer position="top-center" />
             <div className="grid place-items-center min-h-screen">
               <h1 className="font-bold text-2xl text-slate-100 py-3">
                 Mesas Disponibles

@@ -1,28 +1,30 @@
 import { Product } from "./product";
+import { IVisit } from "./visit";
 
 export interface Order {
 	id: number;
 	product: Product;
-	quantity: number;	
+	quantity: number;
+	queuedAt: Date;
+	unitOrders?: IUnitOrder[];
 }
 export interface IUnitOrder {
 	id: number;
-	productState: "PREPARANDO" | "LISTO";
-	queuedAt: Date;
 	product: Product;
-}
-export interface IVisitUnitOrder {
-	entry: Date;
-	exit: Date | null;
-	id: number;
-	unitOrders: IUnitOrder[];
+	productState: UnitOrderState;
 }
 
-export interface IVisitOrder {
-	entry: Date;
-	exit: Date | null;
+export enum UnitOrderState {
+	QUEUED = "PREPARANDO",
+	READY = "LISTO",
+	SERVED = "SERVIDO",
+}
+
+export interface IMasterOrder {
 	id: number;
-	orders: Order[];
+	visit: IVisit;
+	createAt: Date;
+	orders?: Order[];
 }
 export interface createOrderDto {
 	visitId: number;

@@ -5,7 +5,7 @@ import { useProductStore } from "@/app/store/productStore";
 import { useTableStore } from "@/app/store/tableWsStore";
 import { OrderState } from "@/app/types/order";
 import { ChevronLeftIcon } from "@heroicons/react/16/solid";
-import { Button, Divider, Spinner } from "@nextui-org/react";
+import { Button, Divider, ScrollShadow, Spinner } from "@nextui-org/react";
 import { useParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
 
@@ -27,36 +27,19 @@ const ProductByCategory = () => {
   const categoryProducts = categoryDetails?.Products;
 
   const { enqueueOrder, toQueueOrders } = useOrdersStore();
-  const { visitTables } = useTableStore();
+  const { getVisitIdByTableId } = useTableStore();
 
-  const visitId = visitTables?.find(
-    (visitTable) => visitTable.tableId === +tableId
-  )?.visitId;
+  const visitId = getVisitIdByTableId(+tableId);
 
   const prevOrder = toQueueOrders
     ?.find((order) => order.visitId === visitId)
     ?.products?.map((product) => {
-      console.log("product", product);
       return {
         [product.productId]: product.quantity,
       };
     })
     .reduce((prev, curr) => ({ ...prev, ...curr }), {});
 
-  console.log(
-    "prevOrder",
-    toQueueOrders
-      ?.find((order) => order.visitId == visitId)
-      ?.products?.map((product) => {
-        console.log("product", product);
-        return {
-          [product.productId]: product.quantity,
-        };
-      })
-      .reduce((prev, curr) => ({ ...prev, ...curr }), {}),
-    { visitTables },
-    { prevOrder }
-  );
   const [order, setOrder] = useState<OrderState>(prevOrder ? prevOrder : {});
 
   const addToOrder = (productId: number) => {
@@ -111,20 +94,25 @@ const ProductByCategory = () => {
           </div>
           <Divider className="bg-slate-100 mb-4" />
 
-          <div className="flex justify-center">
-            <div className="flex flex-col gap-4 mb-4">
+          <div className="flex justify-center max-h-screen">
+            <ScrollShadow
+              className="flex flex-col gap-4 mb-4 "
+              orientation="vertical"
+            >
               {categoryProducts?.map((product) => (
-                <Product
-                  key={product.id}
-                  productId={product.id}
-                  productName={product.name}
-                  productPrice={product.price}
-                  addToOrder={addToOrder}
-                  removeFromOrder={removeFromOrder}
-                  order={order}
-                />
+                <div className="h-fit" key={product.id}>
+                  <Product
+                    key={product.id}
+                    productId={product.id}
+                    productName={product.name}
+                    productPrice={product.price}
+                    addToOrder={addToOrder}
+                    removeFromOrder={removeFromOrder}
+                    order={order}
+                  />
+                </div>
               ))}
-            </div>
+            </ScrollShadow>
           </div>
         </>
       )}

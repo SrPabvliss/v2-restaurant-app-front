@@ -11,9 +11,11 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@nextui-org/react";
-import { PlusSmallIcon } from "@heroicons/react/20/solid";
+import { CheckIcon, HomeIcon, PlusSmallIcon } from "@heroicons/react/20/solid";
+import { RssIcon } from "@heroicons/react/24/solid";
+import { TagIcon } from "@heroicons/react/16/solid";
 
-const WaiterNavBar = () => {
+const NavBar = ({ type }: { type: string }) => {
   const { logout } = useUserStore();
   const router = useRouter();
 
@@ -22,12 +24,15 @@ const WaiterNavBar = () => {
     router.push("/");
   };
 
+  const handleOrders = () => {
+    router.push("/mesero/orders");
+  };
+
   const content = (
     <PopoverContent className="w-[240px]">
       {() => (
         <div className="px-1 py-2 w-full">
           <div className="mt-2 flex flex-col gap-2 w-full">
-            <Button>Notificaciones</Button>
             <Button onClick={handleLogout}>Cerrar sesión</Button>
           </div>
         </div>
@@ -40,11 +45,30 @@ const WaiterNavBar = () => {
       <Navbar disableAnimation isBordered>
         <NavbarContent className="pr-3" justify="start">
           <NavbarBrand>
-            <p className="text-amber-950 capitalize font-bold">LA JEFECITA</p>
+            <Button
+              variant="ghost"
+              className="capitalize bg-slate-200"
+              onClick={() => router.push(`/${type}`)}
+            >
+              <HomeIcon className="text-amber-950 h-7" />
+
+              <p className="text-amber-950 capitalize font-bold">LA JEFECITA</p>
+            </Button>
           </NavbarBrand>
         </NavbarContent>
 
         <NavbarContent className="" justify="end">
+          {type === "mesero" && (
+            <Button
+              onClick={handleOrders}
+              className="capitalize"
+              color="warning"
+              variant="shadow"
+              size="sm"
+            >
+              <TagIcon className="text-amber-900" />
+            </Button>
+          )}
           <Popover
             placement={"bottom-end"}
             backdrop="transparent"
@@ -69,4 +93,4 @@ const WaiterNavBar = () => {
   );
 };
 
-export default WaiterNavBar;
+export default NavBar;

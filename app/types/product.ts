@@ -8,6 +8,6 @@ export interface IProductCategory {
 export interface Product {
     id:           number;
     name:         string;
-    price:        string;
+    price:        number;
     availability: boolean;
 }
