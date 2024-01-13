@@ -3,7 +3,7 @@ import { IUser } from "../types/user";
 export const fetchLogin = async (username: string, password: string) => {
 	try {
 		const response = await fetch(
-			`${process.env.NEXT_PUBLIC_BACKEN_URL}/auth/login`,
+			`${process.env.NEXT_PUBLIC_BACKEND_URL}/employees/login`,
 			{
 				method: "POST",
 				headers: {

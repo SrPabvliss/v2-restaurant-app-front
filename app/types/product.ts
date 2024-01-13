@@ -2,7 +2,7 @@ export interface IProductCategory {
     id:          number;
     name:        string;
     description: null;
-    Products:    Product[];
+    products:    Product[];
 }
 
 export interface Product {

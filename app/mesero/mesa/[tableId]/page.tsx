@@ -55,7 +55,7 @@ const OrderingTable = () => {
                   key={category.id}
                   categoryId={category.id}
                   categoryName={category.name}
-                  productsLength={category.Products.length}
+                  productsLength={category.products.length}
                 />
               ))}
           </div>

@@ -24,7 +24,7 @@ const ProductByCategory = () => {
   );
 
   const categoryName = categoryDetails?.name; // Obtendrás el nombre de la categoría aquí
-  const categoryProducts = categoryDetails?.Products;
+  const categoryProducts = categoryDetails?.products;
 
   const { enqueueOrder, toQueueOrders } = useOrdersStore();
   const { getVisitIdByTableId } = useTableStore();
@@ -105,7 +105,7 @@ const ProductByCategory = () => {
                     key={product.id}
                     productId={product.id}
                     productName={product.name}
-                    productPrice={product.price}
+                    productPrice={product.price.toString()}
                     addToOrder={addToOrder}
                     removeFromOrder={removeFromOrder}
                     order={order}

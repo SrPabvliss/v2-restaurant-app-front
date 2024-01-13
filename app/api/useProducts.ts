@@ -3,7 +3,7 @@ import { IProductCategory } from "../types/product";
 export const fetchProducts = async () => {
 	try {
 		const response = await fetch(
-			`https://restaurant-orders-manager-back-api.onrender.com/categories/products`,
+			`${process.env.NEXT_PUBLIC_BACKEND_URL}/products`,
 			{
 				method: "GET",
 				headers: {
@@ -12,12 +12,16 @@ export const fetchProducts = async () => {
 			}
 		);
 
+		
+
 		if (!response.ok) {
 			console.log("Error al obtener los productos response.");
 			return;
 		}
 		const data = await response.json();
 		const productData: IProductCategory[] = data;
+
+		console.log(productData);
 
 		if (!productData) {
 			console.log("No se cargaron los productos.");

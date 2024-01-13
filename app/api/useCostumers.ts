@@ -3,7 +3,7 @@ import { ICustomer } from "../types/customer";
 export const fetchCustomers = async () => {
 	try {
 		const response = await fetch(
-			`http://localhost:3001/api/customers`,
+			`${process.env.NEXT_PUBLIC_BACKEND_URL}/customers`,
 			{
 				method: "GET",
 				headers: {

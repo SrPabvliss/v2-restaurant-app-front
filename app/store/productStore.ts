@@ -25,13 +25,19 @@ export const useProductStore = create<StoreState>(
 					set({ areProductsLoading: true });
 					const productCategories = await fetchProducts();
 					set({ areProductsLoading: false });
-					console.log('fetchProducts');
+					console.log('productCategories: ', productCategories);
 					set({ productCategories, productsLoaded: true });
 				}
+
+				set({ areProductsLoading: true });
+				const productsCategories = await fetchProducts();
+				set({ productCategories: productsCategories });
+				set({ areProductsLoading: false });
+
 			},
 			getProductById: (id: number) => {
 				if (useProductStore.getState().productCategories) {
-					return get().productCategories?.flatMap((category) => category.Products).find((product) => product.id === id);
+					return get().productCategories?.flatMap((category) => category.products).find((product) => product.id === id);
 				}
 			},
 		}),

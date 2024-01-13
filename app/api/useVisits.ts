@@ -3,7 +3,7 @@ import { IVisit } from "../types/visit";
 export const fetchVisit = async (visitId: number) => {
 	try {
 		const response = await fetch(
-			`http://localhost:3001/api/visits/master-orders/${visitId}`,
+			`${process.env.NEXT_PUBLIC_BACKEND_URL}/visits/master-orders/${visitId}`,
 			{
 				method: "GET",
 				headers: {
@@ -33,7 +33,7 @@ export const fetchVisit = async (visitId: number) => {
 export const fetchVisits = async () => {
 	try {
 		const response = await fetch(
-			`http://localhost:3001/api/visits/master-orders`,
+			`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/visits/master-orders`,
 			{
 				method: "GET",
 				headers: {

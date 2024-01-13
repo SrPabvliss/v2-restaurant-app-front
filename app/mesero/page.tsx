@@ -26,6 +26,7 @@ const WaiterDashboard: React.FC = () => {
 
   useEffect(() => {
     loadTables();
+    loadProducts();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
