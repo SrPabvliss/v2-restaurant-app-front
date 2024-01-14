@@ -11,6 +11,7 @@ interface StoreState {
 	setProductsLoaded: (loaded: boolean) => void;
 	loadProducts: () => void;
 	areProductsLoading: boolean;
+	setProducts: (products: IProductCategory[]) => void;
 }
 
 export const useProductStore = create<StoreState>(
@@ -18,6 +19,7 @@ export const useProductStore = create<StoreState>(
 		(set, get) => ({
 			areProductsLoading: false,
 			productCategories: undefined,
+			setProducts: (products: IProductCategory[]) => set({ productCategories: products }),
 			productsLoaded: false,
 			setProductsLoaded: (loaded: boolean) => set({ productsLoaded: loaded }),
 			loadProducts: async () => {

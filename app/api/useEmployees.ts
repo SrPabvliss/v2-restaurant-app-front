@@ -1,9 +1,9 @@
-import { ICustomer } from "../types/customer";
+import { IUser } from "../types/user";
 
-export const fetchCustomers = async () => {
+export const fetchEmployees = async () => {
 	try {
 		const response = await fetch(
-			`${process.env.NEXT_PUBLIC_BACKEND_URL}/customers`,
+			`${process.env.NEXT_PUBLIC_BACKEND_URL}/employees`,
 			{
 				method: "GET",
 				headers: {
@@ -17,7 +17,7 @@ export const fetchCustomers = async () => {
 			return;
 		}
 		const data = await response.json();
-		const custormers: ICustomer[] = data;
+		const custormers: IUser[] = data;
 
 		if (!custormers) {
 			console.log("No se cargaron los clientes.");
@@ -30,16 +30,16 @@ export const fetchCustomers = async () => {
 	}
 };
 
-export const createCustomer = async (customer: ICustomer) => {
+export const createEmployee = async (employee: IUser) => {
 	try {
 		const response = await fetch(
-			`${process.env.NEXT_PUBLIC_BACKEND_URL}/customers`,
+			`${process.env.NEXT_PUBLIC_BACKEND_URL}/employees`,
 			{
 				method: "POST",
 				headers: {
 					"Content-Type": "application/json",
 				},
-				body: JSON.stringify(customer),
+				body: JSON.stringify(employee),
 			}
 		);
 
@@ -49,30 +49,29 @@ export const createCustomer = async (customer: ICustomer) => {
 		}
 
 		const data = await response.json();
-		const newCustomer: ICustomer = data;
+		const newEmployee: IUser = data;
 
-		if (!newCustomer) {
+		if (!newEmployee) {
 			console.log("No se creó el cliente.");
 			return;
 		}
 
-		return newCustomer;
+		return newEmployee;
 	} catch (error) {
 		console.log(error);
 	}
 };
 
-export const updateCustomer = async (id: string, customer: Partial<ICustomer>) => {
+export const updateEmployee = async (id: string, customer: Partial<IUser>) => {
 	try {
 		const response = await fetch(
-			`${process.env.NEXT_PUBLIC_BACKEND_URL}/customers/${id}`,
+			`${process.env.NEXT_PUBLIC_BACKEND_URL}/employees/${id}`,
 			{
 				method: "PATCH",
 				headers: {
 					"Content-Type": "application/json",
 				},
 				body: JSON.stringify(customer),
-				mode: "cors",
 			}
 		);
 
@@ -82,7 +81,7 @@ export const updateCustomer = async (id: string, customer: Partial<ICustomer>) =
 		}
 
 		const data = await response.json();
-		const updatedCustomer: ICustomer = data;
+		const updatedCustomer: IUser = data;
 
 		if (!updatedCustomer) {
 			console.log("No se actualizó el cliente.");
@@ -95,10 +94,10 @@ export const updateCustomer = async (id: string, customer: Partial<ICustomer>) =
 	}
 };
 
-export const deleteCustomer = async (id: string) => {
+export const deleteEmployee = async (id: string) => {
 	try {
 		const response = await fetch(
-			`${process.env.NEXT_PUBLIC_BACKEND_URL}/customers/${id}`,
+			`${process.env.NEXT_PUBLIC_BACKEND_URL}/employees/${id}`,
 			{
 				method: "DELETE",
 				headers: {
@@ -113,7 +112,7 @@ export const deleteCustomer = async (id: string) => {
 		}
 
 		const data = await response.json();
-		const deletedCustomer: ICustomer = data;
+		const deletedCustomer: IUser = data;
 
 		if (!deletedCustomer) {
 			console.log("No se eliminó el cliente.");

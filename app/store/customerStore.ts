@@ -9,11 +9,13 @@ interface StoreState {
     setCustomersLoaded : (loaded : boolean)=>void;
     loadCustomers : ()=>void;
     areCustomersLoading : boolean;
+    setCustomers: (customers: ICustomer[])=>void;
 }
 
 export const useCustomerStore = create < StoreState > (persist((set, get)=>({
     areCustomersLoading: false,
     customers: undefined,
+    setCustomers: (customers : ICustomer[])=>set({customers}),
     customersLoaded: false,
     setCustomersLoaded: (loaded : boolean)=>set({customersLoaded: loaded}),
     loadCustomers: async()=> {
@@ -25,4 +27,5 @@ export const useCustomerStore = create < StoreState > (persist((set, get)=>({
             set({customers, customersLoaded: true});
         }
     }
+     
 }), {name: "customer-storage"}) as StateCreator < StoreState >);
