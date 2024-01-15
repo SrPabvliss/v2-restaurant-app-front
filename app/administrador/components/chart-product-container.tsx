@@ -35,8 +35,6 @@ export const ChartProductContainer = ({
   const handleYearMonthData = async (year: number, month: number) => {
     const data = await fetchYearMonthData({ year: year, month: month });
     if (data) setYearMonthData(data);
-
-    console.log(data);
   };
 
   useEffect(() => {

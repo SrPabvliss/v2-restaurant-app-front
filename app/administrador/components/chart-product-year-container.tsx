@@ -25,8 +25,6 @@ export const ChartProductYearContainer = ({
   const handleYearMonthData = async (year: number) => {
     const data = await fetchYearData({ year: year });
     if (data) setYearMonthData(data);
-
-    console.log(data);
   };
 
   const columns = ["Producto", "Cantidad"];

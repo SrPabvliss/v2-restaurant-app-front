@@ -55,8 +55,6 @@ const OrdersPage = () => {
     });
   };
 
-  console.log(readyMasterOrders);
-
   return (
     <div className="p-4 w-full">
       {isClient && (

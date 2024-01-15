@@ -22,8 +22,6 @@ export const ChartYearContainer = ({
   const handleYearData = async (year: number) => {
     const data = await fetchYearData({ year: year });
     if (data) setYearData(data);
-
-    console.log(data);
   };
 
   useEffect(() => {

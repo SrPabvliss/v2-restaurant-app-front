@@ -28,6 +28,10 @@ const NavBar = ({ type }: { type: string }) => {
     router.push("/mesero/orders");
   };
 
+  const handleInvoices = () => {
+    router.push("/cajero/invoices");
+  };
+
   const content = (
     <PopoverContent className="w-[240px]">
       {() => (
@@ -67,6 +71,20 @@ const NavBar = ({ type }: { type: string }) => {
               size="sm"
             >
               <TagIcon className="text-amber-900" />
+            </Button>
+          )}
+          {type === "cajero" && (
+            <Button
+              onClick={handleInvoices}
+              className="flex capitalize mr-20 text-lg font-semibold w-52"
+              color="warning"
+              variant="shadow"
+              size="sm"
+            >
+              <div className="flex">
+                <p className="flex">Facturas</p>
+              </div>
+              <TagIcon className="max-w-fit max-h-8 text-amber-900" />
             </Button>
           )}
           <Popover
