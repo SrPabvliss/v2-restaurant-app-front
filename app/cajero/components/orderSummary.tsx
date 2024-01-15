@@ -2,7 +2,7 @@ import { IMasterOrder } from "@/app/types/order";
 import { formatCurrency } from "@/app/utils/formaters";
 import React from "react";
 
-const orderSummary = ({ masterOrders }: { masterOrders?: IMasterOrder[] }) => {
+const OrderSummary = ({ masterOrders }: { masterOrders?: IMasterOrder[] }) => {
   if (!masterOrders) return null;
 
   return (
@@ -32,4 +32,4 @@ const orderSummary = ({ masterOrders }: { masterOrders?: IMasterOrder[] }) => {
   );
 };
 
-export default orderSummary;
+export default OrderSummary;

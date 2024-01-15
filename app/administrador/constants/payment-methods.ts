@@ -1,0 +1,5 @@
+export enum PAYMENT_METHOD_ENUM {
+  EFECTIVO = "EFECTIVO",
+  CREDITO = "CREDITO",
+  DEBITO = "DEBITO",
+}

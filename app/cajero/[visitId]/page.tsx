@@ -15,14 +15,12 @@ import {
   useDisclosure,
 } from "@nextui-org/react";
 import { ChevronLeftIcon } from "@heroicons/react/20/solid";
-import OrderProduct from "../components/OrderProduct";
-import { BanknotesIcon, CreditCardIcon } from "@heroicons/react/16/solid";
 import { SelectPaymentModal } from "../components/SelectPaymentModal";
-import { useOrdersStore } from "@/app/store/orderStore";
 import { useEffect, useMemo, useState } from "react";
 import { IMasterOrder, Order } from "@/app/types/order";
 import { useVisitStore } from "@/app/store/visitStore";
 import { formatCurrency } from "@/app/utils/formaters";
+import OrderSummary from "../components/orderSummary";
 
 const OrderView = () => {
   const { isOpen, onOpenChange } = useDisclosure();
@@ -82,12 +80,8 @@ const OrderView = () => {
           </div>
           <Divider className="bg-slate-100 mb-4" />
           <div className="text-slate-200 flex flex-col justify-center items-center gap-4 ">
-            <ScrollShadow className="grid grid-cols-3 gap-4 w-5/12 max-h-unit-9xl overflow-y-auto py-3">
-              {masterOrders?.map((masterOrder) =>
-                masterOrder?.orders?.map((order) => (
-                  <OrderProduct order={order} key={order.id} />
-                ))
-              )}
+            <ScrollShadow className="flex justify-center w-7/12 max-h-unit-9xl overflow-y-auto py-3">
+              <OrderSummary masterOrders={masterOrders} />
             </ScrollShadow>
             <Card className=" py-4 w-5/12 bg-background/95 dark:bg-default-100/50">
               <div className="flex justify-center items-center gap-8">

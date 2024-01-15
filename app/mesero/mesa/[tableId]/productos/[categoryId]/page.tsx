@@ -67,7 +67,6 @@ const ProductByCategory = () => {
 
   useEffect(() => {
     if (visitId && Object.keys(order).length > 0) {
-      console.log("visitId", visitId);
       enqueueOrder(visitId, order);
     }
   }, [order, enqueueOrder, visitId]);
