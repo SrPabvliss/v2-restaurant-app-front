@@ -115,6 +115,9 @@ const ProductsView = () => {
   };
 
   useEffect(() => {
+    if(!productCategories) {
+      loadProducts();
+    }
     setAllProducts([]);
 
     productCategories?.forEach((category) => {
@@ -122,7 +125,6 @@ const ProductsView = () => {
         setAllProducts((prev) => {
           const newProducts = category.products
             .map((product) => {
-              // Agregar el categoryId a cada producto
               return { ...product, categoryId: category.id };
             })
             .filter(
