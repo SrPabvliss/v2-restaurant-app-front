@@ -33,38 +33,11 @@ export const useTableStore = create<StoreState>(
       tablesLoaded: false,
       settablesLoaded: (loaded: boolean) => set({ tablesLoaded: loaded }), //settablesLoaded manually
       loadTables: () => {
-        //TODO: pensar una manera de no hacer fetch cada vez que se actualizan las mesas
-        // if (!useTableStore.getState().tablesLoaded) {
+
         set({ areTablesLoading: true });
         socket.emit("get-tables");
-        // socket.on("load-tables", (data: ITable[])=> {
-        // 	set({ areTablesLoading: false });
-        // 	set({
-        // 		tables: data,
-        // 		tablesLoaded: true,
-        // 	});
-        // 	get().filterTables();
-        // });
-
-        //socket.off("load-tables");
-
         socket.emit("get-visits");
-        // socket.on("load-visits", (data: IVisit[])=> {
-        // 	const visits = data.filter((visit) => visit.exit === null);
-        // 	set({
-        // 		visitTables: visits.map((visit) => {
-        // 			return {
-        // 				visitId: visit.id,
-        // 				tableId: visit.table.id,
-        // 			};
-        // 		}
-        // 		),
-        // 	});
-        // 	console.log('fetchVisits' , get().visitTables);
-        // });
-        //socket.off("load-visits");
 
-        // }
         get().filterTables();
       },
       setTables: (tables: ITable[]) => {
@@ -95,12 +68,6 @@ export const useTableStore = create<StoreState>(
       handleTakeTable: (tableId: number) => {
         try {
           socket.emit("create-visit", { tableId: tableId });
-          // socket.on("visit-response", (result: {visitId: number, message: string}) => {
-          // 	if (result) {
-          // 		get().loadTables(); // Actualizar mesas después de ocupar una mesa
-          // 	}
-          // }
-          // );
           toast.success("Mesa ocupada correctamente", {
             position: "bottom-center",
             autoClose: 1800,
@@ -116,12 +83,6 @@ export const useTableStore = create<StoreState>(
       handleEmptyTable: (visitId: number) => {
         try {
           socket.emit("end-visit", { visitId: visitId });
-          // socket.on("visit-response", (result) => {
-          // 	if (result) {
-
-          // 		get().loadTables(); // Actualizar mesas después de desocupar una mesa
-          // 	}
-          // });
           toast.success("Mesa desocupada correctamente", {
             position: "bottom-center",
             autoClose: 1800,

@@ -10,7 +10,7 @@ import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 
-const OrdersPage = () => {
+const Page = () => {
   const {
     handleChangeStatusOrder,
     readyMasterOrders,
@@ -132,4 +132,4 @@ const OrdersPage = () => {
   );
 };
 
-export default OrdersPage;
+export default Page;

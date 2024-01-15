@@ -101,7 +101,10 @@ const CreditDebitPayment = () => {
     }).then((response) => {
       if (response) {
         toast.success("Pago realizado con éxito");
-        window.location.href = response.url;
+        if (typeof window !== 'undefined') {
+          // Tu código que usa `window` o `location` aquí
+          window.location.href = response.url;
+        }
       } else {
         toast.error("Error al realizar el pago");
       }

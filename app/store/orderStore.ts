@@ -48,85 +48,16 @@ export const useOrdersStore = create<OrdersState>(
       areReadyOrdersLoading: false,
       toQueueOrders: undefined,
       handleCreateMasterOrder: (createOrderDto: createOrderDto) => {
-        // socket.on("create-master-order-response", (result) => {
-        // 	if (result) {
-        // 		get().loadOrders(); // Actualizar pedidos después de crear un pedido
-        // 	}
-        // }
-        // );
-        // socket.on("create-master-order-error", (result) => {
-        // 	if (result) {
-        // 		console.log(result);
-        // 	}
-        // }
-        // );
         socket.emit("create-master-order", createOrderDto);
-
-        //socket.off("create-master-order-response");
-        //socket.off("create-master-order-error");
       },
       loadOrders: () => {
         set({ areReadyOrdersLoading: true });
-        // socket.on("load-active-master-orders", (data: IMasterOrder[]) => {
-        // 	set({ masterOrders: data });
-        // 	set({ visitsMasterOrders: get().getVisitsMasterOrders() });
-        // 	set({ visitsServed: get().filterVisitsServed() });
-        // }
-        // );
-        // socket.on("load-active-master-orders-error", (result) => {
-        // 	if (result) {
-        // 		console.log(result);
-        // 	}
-        // }
-        // );
         socket.emit("find-active-master-orders");
         console.log("fetchMasterOrders", get().masterOrders);
-
-        // socket.on("load-preparing-master-orders", (data: IMasterOrder[]) => {
-        // 	set({ progressingMasterOrders: data });
-        // }
-        // );
-        // socket.on("load-preparing-master-orders-error", (result) => {
-        // 	if (result) {
-        // 		console.log(result);
-        // 	}
-        // }
-        // );
         socket.emit("find-preparing-master-orders");
         console.log("progressingMasterOrders", get().progressingMasterOrders);
-
-        // socket.on("load-ready-master-orders", (data: IMasterOrder[]) => {
-        // 	set({ readyMasterOrders: data });
-        // }
-        // );
-        // socket.on("load-ready-master-orders-error", (result) => {
-        // 	if (result) {
-        // 		console.log(result);
-        // 	}
-        // }
-        // );
         socket.emit("find-ready-master-orders");
-
-        // socket.on("load-served-master-orders", (data: IMasterOrder[]) => {
-        // 	set({ masterServedOrders: data });
-        // }
-        // );
-        // socket.on("load-served-master-orders-error", (result) => {
-        // 	if (result) {
-        // 		console.log(result);
-        // 	}
-        // }
-        // );
         socket.emit("find-served-master-orders");
-
-        //socket.off("load-active-master-orders");
-        //socket.off("load-active-master-orders-error");
-        //socket.off("load-preparing-master-orders");
-        //socket.off("load-preparing-master-orders-error");
-        //socket.off("load-ready-master-orders");
-        //socket.off("load-ready-master-orders-error");
-        //socket.off("load-served-master-orders");
-        //socket.off("load-served-master-orders-error");
 
         set({ areReadyOrdersLoading: false });
       },
@@ -209,24 +140,12 @@ export const useOrdersStore = create<OrdersState>(
         }
       },
       handleChangeStatusOrder: (unitOrderId: number, state: UnitOrderState) => {
-        // socket.on("change-status-unit-order-response", (result) => {
-        // 	if (result) {
-        // 		get().loadOrders();
-        // 	}
-        // }
-        // );
-        // socket.on("change-status-unit-order-error", (result) => {
-        // 	if (result) {
-        // 		console.log(result);
-        // 	}
-        // }
-        // );
+
         socket.emit("change-status-unit-order", {
           unitOrderId: unitOrderId,
           state: state,
         });
-        //socket.off("change-status-unit-order-response");
-        //socket.off("change-status-unit-order-error");
+
       },
       getReadyOrderById: (orderId: number) => {
         // encontar en masterOrders.masterOrder.orders

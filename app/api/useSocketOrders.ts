@@ -11,28 +11,15 @@ import { off } from "process";
 
 export const useOrdersSocketListeners = () => {
 
-    // let user;
-    // let userRol: string | null = null;
-  
-    // if (typeof window !== 'undefined') {
-    //   user = window.localStorage.getItem("user");
-      
-    //   if (user) {
-    //     const userData = JSON.parse(user);
-    //     userRol = userData.state.user.role;
-    //   }
-    // }
 	const { loadOrders, setMasterOrders, getVisitsMasterOrders, filterVisitsServed, setProgressingMasterOrders, setReadyMasterOrders, setMasterServedOrders } = useOrdersStore();
 
     
     useEffect(() => {
-        // Desuscribirse antes de suscribirse de nuevo
         socket.off('create-master-order-response');
       
-        // Suscribirse a eventos de socket
         socket.on("create-master-order-response", (result) => {
             if (result) {
-                loadOrders(); // Actualizar pedidos después de crear un pedido
+                loadOrders(); 
             }
         }
         );
@@ -105,7 +92,7 @@ export const useOrdersSocketListeners = () => {
         socket.off("change-status-unit-order-response");
         socket.on("change-status-unit-order-response", (result) => {
             if (result) {
-                loadOrders(); // Actualizar pedidos después de crear un pedido
+                loadOrders();
             }
         }
         );
@@ -119,7 +106,6 @@ export const useOrdersSocketListeners = () => {
         );
 
 
-        // Función de limpieza para desuscribirse cuando el componente se desmonte
         return () => {
             socket.off('create-master-order-response');
             socket.off('create-master-order-error');
@@ -137,5 +123,4 @@ export const useOrdersSocketListeners = () => {
         };
 		// eslint-disable-next-line react-hooks/exhaustive-deps
       }, []);
-  // Aquí puedes añadir más listeners si es necesario
 };

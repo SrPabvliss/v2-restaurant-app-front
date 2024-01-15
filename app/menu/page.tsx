@@ -189,6 +189,7 @@ const MenuPage = () => {
 
           .product-list {
             display: flex;
+            justify-content: center;
             padding: 20px;
             flex-wrap: wrap;
             gap: 20px;

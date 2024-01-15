@@ -86,7 +86,10 @@ const ProductByCategory = () => {
               size="sm"
               className="my-4 ml-4 w-2 px-0"
               onClick={() => {
-                window.history.back();
+                if (typeof window !== 'undefined') {
+                  // Tu código que usa `window` o `location` aquí
+                  window.history.back();
+                }
               }}
             >
               <ChevronLeftIcon />
