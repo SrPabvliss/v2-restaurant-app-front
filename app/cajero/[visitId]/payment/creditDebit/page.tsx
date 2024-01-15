@@ -145,19 +145,14 @@ const CreditDebitPayment = () => {
             }}
           >
             {customers ? (
-              customers!.map(
-                (customer) => (
-                  (fullName = `${customer.firstName} ${customer.firstLastName} ${customer.secondName} ${customer.secondLastName}`),
-                  (
-                    <AutocompleteItem key={customer.id}>
-                      {fullName}
-                    </AutocompleteItem>
-                  )
-                )
-              )
-            ) : (
-              <div></div>
-            )}
+							customers.map((customer) => (
+								<AutocompleteItem key={customer.id}>
+									{`${customer.firstName} ${customer.firstLastName} ${customer.secondName} ${customer.secondLastName}`}
+								</AutocompleteItem>
+							))
+						) : (
+							<AutocompleteItem key={0}>no hay datos</AutocompleteItem>
+						)}
           </Autocomplete>
           <Button color="secondary" variant="shadow" onClick={onOpenChange}>
             Agregar cliente
