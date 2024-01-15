@@ -22,6 +22,6 @@
       "@/*": ["./*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "app/cajero/[visitId]", "app/menu/components/icons.jsx"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "app/cajero/[visitId]", "app/menu/components/icons.jsx", "app/administrador/components/pdf-doc.jsx", "app/administrador/constants/months.ts"],
   "exclude": ["node_modules"]
 }

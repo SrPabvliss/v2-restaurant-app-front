@@ -1,11 +1,13 @@
-import React from "react";
+"use client";
 
-const AdminDahsboard: React.FC = () => {
-	return (
-		<div className="grid place-items-center h-full text-white">
-			<div>Dahsboard de Admin</div>
-		</div>
-	);
+import { AdminDahsboard } from "./components/dashboard";
+
+const Page = () => {
+  return (
+    <div className="place-items-center w-full text-white">
+      <AdminDahsboard />
+    </div>
+  );
 };
 
-export default AdminDahsboard;
+export default Page;

@@ -24,7 +24,9 @@ const ProductByCategory = () => {
   );
 
   const categoryName = categoryDetails?.name; // Obtendrás el nombre de la categoría aquí
-  const categoryProducts = categoryDetails?.products;
+  const categoryProducts = categoryDetails?.products.filter(
+    (product) => product.availability === true
+  );
 
   const { enqueueOrder, toQueueOrders } = useOrdersStore();
   const { getVisitIdByTableId } = useTableStore();

@@ -1,82 +1,90 @@
 "use client";
-import { Button, Listbox, ListboxItem, ScrollShadow } from "@nextui-org/react";
+import { Button, Card, Image, ScrollShadow } from "@nextui-org/react";
 import { ListboxWrapper } from "./components/ListBoxWrapper";
+import { useUserStore } from "../store/userStore";
+import { useRouter } from "next/navigation";
+import Logo from "@/public/images/jefa2.png";
+import { AdminItems } from "./components/admin-items";
+import {
+  Chart as ChartJS,
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  Title,
+  Tooltip,
+  Filler,
+  Legend,
+  BarElement,
+} from "chart.js";
 
 interface LayoutProps {
-	children: React.ReactNode;
+  children: React.ReactNode;
 }
 
+ChartJS.register(
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  Title,
+  Tooltip,
+  Filler,
+  Legend
+);
+ChartJS.register(
+  CategoryScale,
+  LinearScale,
+  BarElement,
+  Title,
+  Tooltip,
+  Legend
+);
+
 const Layout: React.FC<LayoutProps> = ({ children }) => {
-	const items = [
-		{
-			key: "dashboard",
-			label: "Dashboard",
-			url: "/administrador",
-		},
-		{
-			key: "empleados",
-			label: "Empleados",
-			url: "/administrador/empleados",
-		},
-		{
-			key: "clientes",
-			label: "Clientes",
-			url: "/administrador/clientes",
-		},
-		{
-			key: "productos",
-			label: "Productos",
-			url: "/administrador/productos",
-		},
-		{
-			key: "facturas",
-			label: "Facturas",
-			url: "/administrador/facturas",
-		},
-	];
+  const { logout } = useUserStore();
+  const router = useRouter();
+  return (
+    <div className="flex w-full">
+      <aside className="max-w-fit bg-amber-500 min-h-screen min-w-unit-64 overflow-x-auto">
+        <ScrollShadow hideScrollBar className="overflow-auto">
+          <div className="flex flex-col justify-between items-center h-full">
+            <ul className="py-14 flex flex-col items-center w-full">
+              <ListboxWrapper>
+                <Card className="border-none bg-background/80 dark:bg-default-100/50 max-w-64">
+                  <Image
+                    removeWrapper
+                    alt="Card background"
+                    className="z-0  object-cover w-full h-full "
+                    src={Logo.src}
+                  />
+                </Card>
+                <AdminItems />
+              </ListboxWrapper>
+            </ul>
+            <Button
+              className="w-40 h-12 ml-6 border-2 bg-amber-900 text-white mb-10"
+              onClick={() => {
+                logout();
+                router.push("/");
+              }}
+            >
+              Cerrar sesión
+            </Button>
+          </div>
+        </ScrollShadow>
+      </aside>
 
-	return (
-		<div className="flex h-full w-full">
-			<aside className="max-w-fit bg-amber-500 h-full min-h-screen min-w-unit-64 overflow-x-auto ">
-				<ScrollShadow
-					hideScrollBar
-					className="h-full overflow-auto min-h-screen"
-				>
-					<div className="flex flex-col justify-between items-center h-full min-h-screen">
-						<ul className=" py-14 flex flex-col items-center gap-6 w-full">
-							<ListboxWrapper>
-								<Listbox
-									items={items}
-									aria-label="Dynamic Actions"
-									
-								>
-									{(item) => (
-										<ListboxItem
-											key={item.key}
-											className="text-center text-2xl"
-                                            onClick={() => {
-                                                window.location.href = item.url;
-                                              }}
-										>
-											{item.label}
-										</ListboxItem>
-									)}
-								</Listbox>
-							</ListboxWrapper>
-						</ul>
-						<p className="py-14">Cerrar sesión</p>
-					</div>
-				</ScrollShadow>
-			</aside>
-
-			<section
-				className="flex-grow p-4 bg-repeat bg-center"
-				style={{ backgroundImage: `url('/images/fondoLoginAct.jpg')` }}
-			>
-				{children}
-			</section>
-		</div>
-	);
+      <section
+        className="flex-grow p-4 bg-repeat bg-center"
+        style={{ backgroundImage: `url('/images/fondoLoginAct.jpg')` }}
+      >
+        <ScrollShadow hideScrollBar className="overflow-auto max-h-screen">
+          {children}
+        </ScrollShadow>
+      </section>
+    </div>
+  );
 };
 
 export default Layout;
