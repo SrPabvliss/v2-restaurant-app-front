@@ -29,6 +29,10 @@ const Page = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  if (typeof window === 'undefined') {
+    return <div></div>
+  }
+
   if (!user) {
     router.push("/");
   }
